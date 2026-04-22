@@ -3,78 +3,83 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Doraemon Postman Simulator</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Fira+Code:wght@500&display=swap" rel="stylesheet">
+    <title>Advanced Chinese Postman Simulator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
     <style>
         :root {
+            --bg: #0a0b10;
             --primary: #00f2ff;
             --secondary: #7000ff;
+            --text: #e0e0e0;
             --accent: #ffea00;
-            --bg-dark: rgba(10, 11, 16, 0.85);
         }
 
         body {
             margin: 0; padding: 0;
-            background: url('https://wallpapers.com/images/featured/doraemon-background-8u0z89a744474is5.jpg') no-repeat center center fixed;
+            /* Thay link ảnh Anime tại đây */
+            background: url('https://images.alphacoders.com/132/1327116.png') no-repeat center center fixed;
             background-size: cover;
-            color: #fff;
+            color: var(--text);
             font-family: 'Inter', sans-serif;
             display: flex; height: 100vh; overflow: hidden;
         }
 
-        /* Overlay cho nền mờ ảo */
-        .overlay {
+        /* Lớp phủ để làm mờ nền Anime cho dễ nhìn code */
+        .overlay-dark {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--bg-dark); z-index: -1;
+            background: rgba(10, 11, 16, 0.8); z-index: -1;
         }
 
         .sidebar {
-            width: 400px; background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(20px); border-right: 1px solid rgba(255,255,255,0.1);
-            padding: 30px; display: flex; flex-direction: column; gap: 20px; overflow-y: auto;
+            width: 380px; background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px); border-right: 1px solid rgba(255,255,255,0.1);
+            padding: 25px; display: flex; flex-direction: column; gap: 20px; overflow-y: auto;
         }
 
-        h1 { font-size: 1.8rem; margin: 0; color: var(--primary); text-shadow: 0 0 10px var(--primary); }
+        h1 { font-size: 1.5rem; margin: 0; background: linear-gradient(90deg, var(--primary), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        
+        .guide { font-size: 0.85rem; color: #888; line-height: 1.4; background: rgba(0,0,0,0.3); padding: 10px; border-left: 3px solid var(--primary); }
 
         textarea {
-            width: 90%; height: 120px; background: rgba(0,0,0,0.5);
-            border: 1px solid var(--primary); border-radius: 10px;
-            color: #00ffaa; padding: 15px; font-family: 'Fira Code', monospace;
+            width: 93%; height: 120px; background: #000; border: 1px solid #333;
+            border-radius: 8px; color: #00ffaa; padding: 10px; font-family: 'Fira Code', monospace;
         }
 
         .btn-group { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        
+
         button {
             padding: 12px; border-radius: 8px; border: none; cursor: pointer;
-            font-weight: bold; transition: 0.3s; text-transform: uppercase;
+            font-weight: 600; transition: 0.3s;
         }
 
-        .btn-init { background: #555; color: white; }
-        .btn-init:hover { background: #777; }
-        
-        .btn-start { background: linear-gradient(90deg, var(--primary), var(--secondary)); color: white; }
-        .btn-start:hover { transform: scale(1.05); box-shadow: 0 0 15px var(--primary); }
+        .btn-init { background: #444; color: white; }
+        .btn-init:hover { background: #555; }
 
-        .result-box {
-            background: rgba(255, 234, 0, 0.1); border: 2px solid var(--accent);
-            padding: 20px; border-radius: 12px; margin-top: 10px;
+        .btn-run { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; }
+        .btn-run:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0, 242, 255, 0.3); }
+
+        .output-card {
+            background: rgba(0,0,0,0.4); border-radius: 12px; padding: 15px;
+            border: 1px solid rgba(255,255,255,0.05);
         }
         
-        .result-label { color: var(--accent); font-weight: bold; font-size: 0.8rem; margin-bottom: 5px; }
-        .path-display { font-size: 1.4rem; color: #fff; font-family: 'Fira Code', monospace; line-height: 1.4; }
+        .output-title { font-size: 0.75rem; text-transform: uppercase; color: var(--accent); margin-bottom: 8px; font-weight: 800; }
+        .path-display { color: #fff; font-family: 'Fira Code', monospace; font-size: 1.3rem; line-height: 1.4; word-break: break-all; }
 
-        .main-view { flex-grow: 1; position: relative; }
-        canvas { display: block; }
-
-        .hint { font-size: 0.8rem; color: #aaa; font-style: italic; }
+        .main-content { flex-grow: 1; position: relative; }
+        canvas { cursor: crosshair; }
     </style>
 </head>
 <body>
-    <div class="overlay"></div>
+    <div class="overlay-dark"></div>
 
     <div class="sidebar">
-        <h1>Doraemon Tool 🤖</h1>
-        <p class="hint">Nhập: Đỉnh1 Đỉnh2 TrọngSố (Ví dụ: A B 10)</p>
+        <h1>Postman Visualizer</h1>
+        
+        <div class="guide">
+            <strong>Hướng dẫn:</strong> Nhập <code>Đỉnh1 Đỉnh2 TrọngSố</code>. Di chuột vào cạnh để xem chi tiết.
+        </div>
+
         <textarea id="edgeInput">A B 9
 B C 10
 C D 3
@@ -85,50 +90,45 @@ C E 7
 D E 8</textarea>
 
         <div class="btn-group">
-            <button class="btn-init" onclick="initGraph()">1. Khởi động</button>
-            <button class="btn-start" onclick="startSolving()">2. Bắt đầu</button>
+            <button class="btn-init" onclick="initOnly()">Khởi động</button>
+            <button class="btn-run" onclick="runSimulation()">Bắt đầu chạy</button>
         </div>
 
-        <div id="resultContainer" class="result-box" style="display: none;">
-            <div class="result-label">LỘ TRÌNH TỐI ƯU:</div>
-            <div id="pathOutput" class="path-display">...</div>
-            <div id="totalCost" style="color: var(--primary); margin-top: 10px; font-weight: bold;"></div>
+        <div class="output-card" id="resultCard" style="display:none;">
+            <div class="output-title">LỘ TRÌNH TỐI ƯU</div>
+            <div id="pathOutput" class="path-display"></div>
+            <div id="costInfo" style="margin-top:10px; color: var(--primary); font-weight:bold;"></div>
         </div>
     </div>
 
-    <div class="main-view">
-        <canvas id="canvas"></canvas>
+    <div class="main-content">
+        <canvas id="mainCanvas"></canvas>
     </div>
 
 <script>
-    const canvas = document.getElementById('canvas');
+    const canvas = document.getElementById('mainCanvas');
     const ctx = canvas.getContext('2d');
     let nodes = {}, edges = [], eulerPath = [];
     let animationId = null, progress = 0, currentStep = 0;
     let visitedSegments = [], hoveredEdge = null;
-    let isAnimating = false;
+    let isRunning = false;
 
     function resize() {
-        canvas.width = window.innerWidth - 400;
+        canvas.width = window.innerWidth - 380;
         canvas.height = window.innerHeight;
     }
     window.onresize = resize;
     resize();
 
-    // Lắng nghe di chuyển chuột để highlight cạnh
+    // Xử lý di chuột highlight cạnh
     canvas.addEventListener('mousemove', (e) => {
         const rect = canvas.getBoundingClientRect();
         const mx = e.clientX - rect.left;
         const my = e.clientY - rect.top;
-        
         hoveredEdge = null;
         edges.forEach(edge => {
-            const p1 = nodes[edge.u];
-            const p2 = nodes[edge.v];
-            if (p1 && p2) {
-                const dist = distToSegment({x: mx, y: my}, p1, p2);
-                if (dist < 10) hoveredEdge = edge;
-            }
+            const p1 = nodes[edge.u], p2 = nodes[edge.v];
+            if (p1 && p2 && distToSegment({x: mx, y: my}, p1, p2) < 10) hoveredEdge = edge;
         });
     });
 
@@ -140,50 +140,47 @@ D E 8</textarea>
         return Math.sqrt(Math.pow(p.x - (v.x + t * (w.x - v.x)), 2) + Math.pow(p.y - (v.y + t * (w.y - v.y)), 2));
     }
 
-    function initGraph() {
+    function initOnly() {
         cancelAnimationFrame(animationId);
-        isAnimating = false;
+        isRunning = false;
         nodes = {}; edges = []; visitedSegments = [];
-        const input = document.getElementById('edgeInput').value.trim();
+        document.getElementById('resultCard').style.display = 'none';
         
-        const lines = input.split('\n');
-        lines.forEach((line) => {
+        const input = document.getElementById('edgeInput').value.trim();
+        input.split('\n').forEach((line, i) => {
             const [u, v, w] = line.trim().split(/\s+/);
             if(u && v) {
-                edges.push({u, v, w: parseInt(w) || 1});
+                edges.push({u, v, w: parseInt(w) || 0});
                 if(!nodes[u]) nodes[u] = {id: u};
                 if(!nodes[v]) nodes[v] = {id: v};
             }
         });
 
-        const nodeKeys = Object.keys(nodes);
-        nodeKeys.forEach((key, i) => {
-            const angle = (i / nodeKeys.length) * Math.PI * 2;
-            // Layout thông minh: nếu là A,B,C,D,E thì dùng tọa độ đẹp
+        const keys = Object.keys(nodes);
+        keys.forEach((id, i) => {
             const presets = {'A':{x:0.7,y:0.2},'B':{x:0.7,y:0.8},'C':{x:0.3,y:0.8},'D':{x:0.3,y:0.2},'E':{x:0.5,y:0.5}};
-            if(presets[key]) {
-                nodes[key].x = presets[key].x * canvas.width;
-                nodes[key].y = presets[key].y * canvas.height;
+            if(presets[id]) {
+                nodes[id].x = presets[id].x * canvas.width;
+                nodes[id].y = presets[id].y * canvas.height;
             } else {
-                nodes[key].x = canvas.width/2 + Math.cos(angle) * 200;
-                nodes[key].y = canvas.height/2 + Math.sin(angle) * 200;
+                const a = (i/keys.length)*Math.PI*2;
+                nodes[id].x = canvas.width/2 + Math.cos(a)*200;
+                nodes[id].y = canvas.height/2 + Math.sin(a)*200;
             }
         });
-        document.getElementById('resultContainer').style.display = 'none';
-        draw();
+        drawLoop();
     }
 
-    function startSolving() {
-        if (Object.keys(nodes).length === 0) initGraph();
+    function runSimulation() {
+        if(Object.keys(nodes).length === 0) initOnly();
         
-        // Giả lập tìm chu trình Euler (Hierholzer giản lược)
+        // Tạo đường đi mẫu
         let path = [Object.keys(nodes)[0]];
-        let tempEdges = [...edges];
-        let curr = path[0];
-        while(tempEdges.length > 0) {
-            let idx = tempEdges.findIndex(e => e.u === curr || e.v === curr);
+        let temp = [...edges], curr = path[0];
+        while(temp.length > 0) {
+            let idx = temp.findIndex(e => e.u === curr || e.v === curr);
             if(idx === -1) break;
-            let e = tempEdges.splice(idx, 1)[0];
+            let e = temp.splice(idx, 1)[0];
             curr = (e.u === curr) ? e.v : e.u;
             path.push(curr);
         }
@@ -191,101 +188,75 @@ D E 8</textarea>
 
         eulerPath = path;
         currentStep = 0; progress = 0; visitedSegments = [];
-        isAnimating = true;
-        
-        document.getElementById('resultContainer').style.display = 'block';
+        isRunning = true;
+        document.getElementById('resultCard').style.display = 'block';
         document.getElementById('pathOutput').innerText = path.join(' → ');
-        document.getElementById('totalCost').innerText = "Tổng trọng số: " + edges.reduce((a,b)=>a+b.w, 0);
-        
+        document.getElementById('costInfo').innerText = "Tổng chi phí: " + edges.reduce((a,b)=>a+b.w, 0);
         animate();
     }
 
-    function draw() {
+    function drawStatic() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-        // Vẽ cạnh
+        
         edges.forEach(e => {
             const p1 = nodes[e.u], p2 = nodes[e.v];
-            const isHovered = (hoveredEdge === e);
-            
+            const active = hoveredEdge === e;
             ctx.beginPath();
-            ctx.strokeStyle = isHovered ? varColor('--primary') : 'rgba(255,255,255,0.2)';
-            ctx.lineWidth = isHovered ? 4 : 2;
-            ctx.setLineDash(isHovered ? [] : [5, 5]);
-            ctx.moveTo(p1.x, p1.y);
-            ctx.lineTo(p2.x, p2.y);
+            ctx.strokeStyle = active ? varCol('--primary') : 'rgba(255,255,255,0.1)';
+            ctx.lineWidth = active ? 4 : 2;
+            ctx.setLineDash(active ? [] : [5,5]);
+            ctx.moveTo(p1.x, p1.y); ctx.lineTo(p2.x, p2.y);
             ctx.stroke();
             ctx.setLineDash([]);
 
-            // Vẽ trọng số (Weight)
-            const midX = (p1.x + p2.x) / 2;
-            const midY = (p1.y + p2.y) / 2;
-            ctx.fillStyle = isHovered ? varColor('--accent') : '#aaa';
-            ctx.font = isHovered ? "bold 18px Fira Code" : "14px Fira Code";
-            ctx.shadowBlur = isHovered ? 10 : 0;
-            ctx.shadowColor = varColor('--accent');
-            ctx.fillText(e.w, midX + 10, midY);
-            ctx.shadowBlur = 0;
+            // Trọng số
+            ctx.fillStyle = active ? varCol('--accent') : '#666';
+            ctx.font = active ? "bold 16px Fira Code" : "12px Fira Code";
+            ctx.fillText(e.w, (p1.x+p2.x)/2 + 10, (p1.y+p2.y)/2);
         });
 
-        // Vẽ các đoạn đã đi qua
-        ctx.strokeStyle = varColor('--primary');
-        ctx.lineWidth = 4;
-        ctx.shadowBlur = 15;
-        ctx.shadowColor = varColor('--primary');
-        visitedSegments.forEach(s => {
-            ctx.beginPath();
-            ctx.moveTo(s.x1, s.y1); ctx.lineTo(s.x2, s.y2);
-            ctx.stroke();
-        });
-        ctx.shadowBlur = 0;
-
-        // Vẽ đỉnh
         for(let id in nodes) {
             const n = nodes[id];
-            ctx.fillStyle = (eulerPath[currentStep] === id) ? '#fff' : varColor('--secondary');
-            ctx.beginPath();
-            ctx.arc(n.x, n.y, 8, 0, Math.PI*2);
-            ctx.fill();
-            ctx.fillStyle = "#fff";
-            ctx.font = "bold 16px Inter";
-            ctx.fillText(id, n.x - 20, n.y - 15);
+            ctx.fillStyle = (eulerPath[currentStep] === id && isRunning) ? '#fff' : varCol('--secondary');
+            ctx.beginPath(); ctx.arc(n.x, n.y, 7, 0, Math.PI*2); ctx.fill();
+            ctx.fillStyle = "#fff"; ctx.fillText(id, n.x - 5, n.y - 15);
         }
     }
 
     function animate() {
-        draw();
-        if(isAnimating && currentStep < eulerPath.length - 1) {
-            let p1 = nodes[eulerPath[currentStep]];
-            let p2 = nodes[eulerPath[currentStep+1]];
-            
-            let curX = p1.x + (p2.x - p1.x) * progress;
-            let curY = p1.y + (p2.y - p1.y) * progress;
+        drawStatic();
+        // Đường đã đi
+        ctx.strokeStyle = varCol('--primary');
+        ctx.lineWidth = 3;
+        ctx.shadowBlur = 10; ctx.shadowColor = varCol('--primary');
+        visitedSegments.forEach(s => {
+            ctx.beginPath(); ctx.moveTo(s.x1, s.y1); ctx.lineTo(s.x2, s.y2); ctx.stroke();
+        });
+        ctx.shadowBlur = 0;
 
-            // Chấm sáng di chuyển
-            ctx.shadowBlur = 20;
-            ctx.shadowColor = "#fff";
-            ctx.fillStyle = "#fff";
-            ctx.beginPath(); ctx.arc(curX, curY, 6, 0, Math.PI*2); ctx.fill();
+        if(isRunning && currentStep < eulerPath.length - 1) {
+            let p1 = nodes[eulerPath[currentStep]], p2 = nodes[eulerPath[currentStep+1]];
+            let cx = p1.x + (p2.x - p1.x)*progress, cy = p1.y + (p2.y - p1.y)*progress;
+            
+            ctx.fillStyle = "#fff"; ctx.shadowBlur = 15; ctx.shadowColor = "#fff";
+            ctx.beginPath(); ctx.arc(cx, cy, 5, 0, Math.PI*2); ctx.fill();
             ctx.shadowBlur = 0;
 
             progress += 0.02;
             if(progress >= 1) {
-                visitedSegments.push({x1: p1.x, y1: p1.y, x2: p2.x, y2: p2.y});
-                progress = 0;
-                currentStep++;
+                visitedSegments.push({x1:p1.x, y1:p1.y, x2:p2.x, y2:p2.y});
+                progress = 0; currentStep++;
             }
             animationId = requestAnimationFrame(animate);
-        } else if (!isAnimating) {
-            animationId = requestAnimationFrame(draw);
+        } else {
+            animationId = requestAnimationFrame(drawLoop);
         }
     }
 
-    function varColor(name) {
-        return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
-    }
-
-    initGraph();
+    function drawLoop() { if(!isRunning) { drawStatic(); requestAnimationFrame(drawLoop); } }
+    function varCol(n) { return getComputedStyle(document.documentElement).getPropertyValue(n).trim(); }
+    
+    initOnly();
 </script>
 </body>
 </html>
