@@ -3,54 +3,260 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dự Án Web Game FPS</title>
+    <title>Advanced Chinese Postman Simulator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
     <style>
-        /* CSS để trang trí giao diện nhìn "ngầu" hơn một chút */
+        :root {
+            --bg: #0a0b10;
+            --primary: #00f2ff;
+            --secondary: #7000ff;
+            --text: #e0e0e0;
+            --accent: #ffea00;
+        }
+
         body {
-            margin: 0;
-            padding: 0;
-            background-color: #1a1a1a; /* Màu nền tối */
-            color: #ffffff;
-            font-family: Arial, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh; /* Chiếm trọn chiều cao màn hình */
+            margin: 0; padding: 0;
+            /* Thay link ảnh Anime tại đây */
+            background: url('https://images.alphacoders.com/132/1327116.png') no-repeat center center fixed;
+            background-size: cover;
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            display: flex; height: 100vh; overflow: hidden;
         }
 
-        h1 {
-            color: #ff4655; /* Màu đỏ mượn cảm hứng từ Valorant */
+        /* Lớp phủ để làm mờ nền Anime cho dễ nhìn code */
+        .overlay-dark {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(10, 11, 16, 0.8); z-index: -1;
         }
 
-        /* Đây là khung game của bạn */
-        #gameCanvas {
-            background-color: #000000;
-            border: 3px solid #333;
-            box-shadow: 0 0 15px rgba(255, 70, 85, 0.5); /* Hiệu ứng sáng viền */
+        .sidebar {
+            width: 380px; background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px); border-right: 1px solid rgba(255,255,255,0.1);
+            padding: 25px; display: flex; flex-direction: column; gap: 20px; overflow-y: auto;
         }
+
+        h1 { font-size: 1.5rem; margin: 0; background: linear-gradient(90deg, var(--primary), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        
+        .guide { font-size: 0.85rem; color: #888; line-height: 1.4; background: rgba(0,0,0,0.3); padding: 10px; border-left: 3px solid var(--primary); }
+
+        textarea {
+            width: 93%; height: 120px; background: #000; border: 1px solid #333;
+            border-radius: 8px; color: #00ffaa; padding: 10px; font-family: 'Fira Code', monospace;
+        }
+
+        .btn-group { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+        button {
+            padding: 12px; border-radius: 8px; border: none; cursor: pointer;
+            font-weight: 600; transition: 0.3s;
+        }
+
+        .btn-init { background: #444; color: white; }
+        .btn-init:hover { background: #555; }
+
+        .btn-run { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; }
+        .btn-run:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0, 242, 255, 0.3); }
+
+        .output-card {
+            background: rgba(0,0,0,0.4); border-radius: 12px; padding: 15px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        .output-title { font-size: 0.75rem; text-transform: uppercase; color: var(--accent); margin-bottom: 8px; font-weight: 800; }
+        .path-display { color: #fff; font-family: 'Fira Code', monospace; font-size: 1.3rem; line-height: 1.4; word-break: break-all; }
+
+        .main-content { flex-grow: 1; position: relative; }
+        canvas { cursor: crosshair; }
     </style>
 </head>
 <body>
+    <div class="overlay-dark"></div>
 
-    <h1>Nguyên Mẫu Game Bắn Súng</h1>
-    
-    <canvas id="gameCanvas" width="800" height="600"></canvas>
-
-    <p>Sử dụng WASD để di chuyển (Chưa có code, nhưng chuẩn bị sẵn tinh thần!)</p>
-
-    <script>
-        // Phần Javascript: Nơi bạn sẽ viết logic game, vật lý, đồ họa
-        const canvas = document.getElementById('gameCanvas');
-        const ctx = canvas.getContext('2d'); // Dùng 2D cho dễ bắt đầu nhé
-
-        // In ra console để biết code đã chạy
-        console.log("Khung HTML đã sẵn sàng. Chờ code game!");
+    <div class="sidebar">
+        <h1>Postman Visualizer</h1>
         
-        // Ví dụ vẽ thử một "người chơi" (hình vuông màu xanh) ra giữa màn hình
-        ctx.fillStyle = "#00ffcc";
-        ctx.fillRect(380, 280, 40, 40); 
-    </script>
+        <div class="guide">
+            <strong>Hướng dẫn:</strong> Nhập <code>Đỉnh1 Đỉnh2 TrọngSố</code>. Di chuột vào cạnh để xem chi tiết.
+        </div>
 
+        <textarea id="edgeInput">A B 9
+B C 10
+C D 3
+D A 1
+A E 4
+B E 5
+C E 7
+D E 8</textarea>
+
+        <div class="btn-group">
+            <button class="btn-init" onclick="initOnly()">Khởi động</button>
+            <button class="btn-run" onclick="runSimulation()">Bắt đầu chạy</button>
+        </div>
+
+        <div class="output-card" id="resultCard" style="display:none;">
+            <div class="output-title">LỘ TRÌNH TỐI ƯU</div>
+            <div id="pathOutput" class="path-display"></div>
+            <div id="costInfo" style="margin-top:10px; color: var(--primary); font-weight:bold;"></div>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <canvas id="mainCanvas"></canvas>
+    </div>
+
+<script>
+    const canvas = document.getElementById('mainCanvas');
+    const ctx = canvas.getContext('2d');
+    let nodes = {}, edges = [], eulerPath = [];
+    let animationId = null, progress = 0, currentStep = 0;
+    let visitedSegments = [], hoveredEdge = null;
+    let isRunning = false;
+
+    function resize() {
+        canvas.width = window.innerWidth - 380;
+        canvas.height = window.innerHeight;
+    }
+    window.onresize = resize;
+    resize();
+
+    // Xử lý di chuột highlight cạnh
+    canvas.addEventListener('mousemove', (e) => {
+        const rect = canvas.getBoundingClientRect();
+        const mx = e.clientX - rect.left;
+        const my = e.clientY - rect.top;
+        hoveredEdge = null;
+        edges.forEach(edge => {
+            const p1 = nodes[edge.u], p2 = nodes[edge.v];
+            if (p1 && p2 && distToSegment({x: mx, y: my}, p1, p2) < 10) hoveredEdge = edge;
+        });
+    });
+
+    function distToSegment(p, v, w) {
+        const l2 = Math.pow(v.x - w.x, 2) + Math.pow(v.y - w.y, 2);
+        if (l2 == 0) return Math.sqrt(Math.pow(p.x - v.x, 2) + Math.pow(p.y - v.y, 2));
+        let t = ((p.x - v.x) * (w.x - v.x) + (p.y - v.y) * (w.y - v.y)) / l2;
+        t = Math.max(0, Math.min(1, t));
+        return Math.sqrt(Math.pow(p.x - (v.x + t * (w.x - v.x)), 2) + Math.pow(p.y - (v.y + t * (w.y - v.y)), 2));
+    }
+
+    function initOnly() {
+        cancelAnimationFrame(animationId);
+        isRunning = false;
+        nodes = {}; edges = []; visitedSegments = [];
+        document.getElementById('resultCard').style.display = 'none';
+        
+        const input = document.getElementById('edgeInput').value.trim();
+        input.split('\n').forEach((line, i) => {
+            const [u, v, w] = line.trim().split(/\s+/);
+            if(u && v) {
+                edges.push({u, v, w: parseInt(w) || 0});
+                if(!nodes[u]) nodes[u] = {id: u};
+                if(!nodes[v]) nodes[v] = {id: v};
+            }
+        });
+
+        const keys = Object.keys(nodes);
+        keys.forEach((id, i) => {
+            const presets = {'A':{x:0.7,y:0.2},'B':{x:0.7,y:0.8},'C':{x:0.3,y:0.8},'D':{x:0.3,y:0.2},'E':{x:0.5,y:0.5}};
+            if(presets[id]) {
+                nodes[id].x = presets[id].x * canvas.width;
+                nodes[id].y = presets[id].y * canvas.height;
+            } else {
+                const a = (i/keys.length)*Math.PI*2;
+                nodes[id].x = canvas.width/2 + Math.cos(a)*200;
+                nodes[id].y = canvas.height/2 + Math.sin(a)*200;
+            }
+        });
+        drawLoop();
+    }
+
+    function runSimulation() {
+        if(Object.keys(nodes).length === 0) initOnly();
+        
+        // Tạo đường đi mẫu
+        let path = [Object.keys(nodes)[0]];
+        let temp = [...edges], curr = path[0];
+        while(temp.length > 0) {
+            let idx = temp.findIndex(e => e.u === curr || e.v === curr);
+            if(idx === -1) break;
+            let e = temp.splice(idx, 1)[0];
+            curr = (e.u === curr) ? e.v : e.u;
+            path.push(curr);
+        }
+        if(path[path.length-1] !== path[0]) path.push(path[0]);
+
+        eulerPath = path;
+        currentStep = 0; progress = 0; visitedSegments = [];
+        isRunning = true;
+        document.getElementById('resultCard').style.display = 'block';
+        document.getElementById('pathOutput').innerText = path.join(' → ');
+        document.getElementById('costInfo').innerText = "Tổng chi phí: " + edges.reduce((a,b)=>a+b.w, 0);
+        animate();
+    }
+
+    function drawStatic() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        edges.forEach(e => {
+            const p1 = nodes[e.u], p2 = nodes[e.v];
+            const active = hoveredEdge === e;
+            ctx.beginPath();
+            ctx.strokeStyle = active ? varCol('--primary') : 'rgba(255,255,255,0.1)';
+            ctx.lineWidth = active ? 4 : 2;
+            ctx.setLineDash(active ? [] : [5,5]);
+            ctx.moveTo(p1.x, p1.y); ctx.lineTo(p2.x, p2.y);
+            ctx.stroke();
+            ctx.setLineDash([]);
+
+            // Trọng số
+            ctx.fillStyle = active ? varCol('--accent') : '#666';
+            ctx.font = active ? "bold 16px Fira Code" : "12px Fira Code";
+            ctx.fillText(e.w, (p1.x+p2.x)/2 + 10, (p1.y+p2.y)/2);
+        });
+
+        for(let id in nodes) {
+            const n = nodes[id];
+            ctx.fillStyle = (eulerPath[currentStep] === id && isRunning) ? '#fff' : varCol('--secondary');
+            ctx.beginPath(); ctx.arc(n.x, n.y, 7, 0, Math.PI*2); ctx.fill();
+            ctx.fillStyle = "#fff"; ctx.fillText(id, n.x - 5, n.y - 15);
+        }
+    }
+
+    function animate() {
+        drawStatic();
+        // Đường đã đi
+        ctx.strokeStyle = varCol('--primary');
+        ctx.lineWidth = 3;
+        ctx.shadowBlur = 10; ctx.shadowColor = varCol('--primary');
+        visitedSegments.forEach(s => {
+            ctx.beginPath(); ctx.moveTo(s.x1, s.y1); ctx.lineTo(s.x2, s.y2); ctx.stroke();
+        });
+        ctx.shadowBlur = 0;
+
+        if(isRunning && currentStep < eulerPath.length - 1) {
+            let p1 = nodes[eulerPath[currentStep]], p2 = nodes[eulerPath[currentStep+1]];
+            let cx = p1.x + (p2.x - p1.x)*progress, cy = p1.y + (p2.y - p1.y)*progress;
+            
+            ctx.fillStyle = "#fff"; ctx.shadowBlur = 15; ctx.shadowColor = "#fff";
+            ctx.beginPath(); ctx.arc(cx, cy, 5, 0, Math.PI*2); ctx.fill();
+            ctx.shadowBlur = 0;
+
+            progress += 0.02;
+            if(progress >= 1) {
+                visitedSegments.push({x1:p1.x, y1:p1.y, x2:p2.x, y2:p2.y});
+                progress = 0; currentStep++;
+            }
+            animationId = requestAnimationFrame(animate);
+        } else {
+            animationId = requestAnimationFrame(drawLoop);
+        }
+    }
+
+    function drawLoop() { if(!isRunning) { drawStatic(); requestAnimationFrame(drawLoop); } }
+    function varCol(n) { return getComputedStyle(document.documentElement).getPropertyValue(n).trim(); }
+    
+    initOnly();
+</script>
 </body>
 </html>
