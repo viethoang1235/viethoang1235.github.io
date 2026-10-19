@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gửi Ry Húi 💖</title>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+    <title>Gửi Ry Húi ✨ Đường Tôi Chở Em Về</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@400;600;700&family=Caveat:wght@700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -13,7 +13,9 @@
         }
 
         body {
-            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            background: linear-gradient(135deg, #0d0714, #2a0845, #16002c, #050014);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
             color: #fff;
             font-family: 'Montserrat', sans-serif;
             min-height: 100vh;
@@ -24,7 +26,13 @@
             position: relative;
         }
 
-        /* Nền hiệu ứng sao lấp lánh */
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Nền hiệu ứng sao & pháo hoa mini */
         .stars {
             position: absolute;
             top: 0;
@@ -43,167 +51,263 @@
         }
 
         @keyframes twinkle {
-            0%, 100% { opacity: 0.2; transform: scale(0.8); }
-            50% { opacity: 1; transform: scale(1.2); }
+            0%, 100% { opacity: 0.1; transform: scale(0.6); }
+            50% { opacity: 1; transform: scale(1.4); filter: drop-shadow(0 0 6px #fff); }
         }
 
         /* Màn hình khởi động */
         #start-screen {
             position: absolute;
-            z-index: 10;
+            z-index: 20;
             text-align: center;
             cursor: pointer;
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
-            animation: pulse-box 2s infinite;
+            padding: 35px 25px;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(15px);
+            border-radius: 30px;
+            border: 2px solid rgba(255, 182, 193, 0.3);
+            box-shadow: 0 0 30px rgba(255, 105, 180, 0.4), inset 0 0 15px rgba(255, 255, 255, 0.2);
+            animation: startPulse 2s infinite ease-in-out;
+            max-width: 90%;
+            width: 420px;
         }
 
-        @keyframes pulse-box {
-            0%, 100% { transform: scale(1); box-shadow: 0 0 15px rgba(255, 105, 180, 0.3); }
-            50% { transform: scale(1.03); box-shadow: 0 0 25px rgba(255, 105, 180, 0.6); }
+        @keyframes startPulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 25px rgba(255, 105, 180, 0.4); }
+            50% { transform: scale(1.04); box-shadow: 0 0 45px rgba(255, 105, 180, 0.8), 0 0 15px rgba(255, 255, 255, 0.6); }
         }
 
         #start-screen h1 {
             font-family: 'Dancing Script', cursive;
-            font-size: 2.8rem;
-            color: #ff758c;
-            margin-bottom: 10px;
+            font-size: 3.2rem;
+            background: linear-gradient(45deg, #ff758c, #ff7eb3, #ffb199);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 15px;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
         }
 
         #start-screen p {
-            font-size: 1rem;
-            color: #ddd;
+            font-size: 1.05rem;
+            color: #ffe3ec;
+            line-height: 1.6;
+        }
+
+        #start-screen .btn-start {
+            margin-top: 20px;
+            display: inline-block;
+            padding: 12px 30px;
+            background: linear-gradient(45deg, #ff416c, #ff4b2b);
+            border-radius: 50px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            box-shadow: 0 5px 15px rgba(255, 65, 108, 0.5);
+            animation: bounceBtn 1.5s infinite;
+        }
+
+        @keyframes bounceBtn {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
         }
 
         /* Khung hiển thị chính */
         #main-container {
             display: none;
             position: relative;
-            z-index: 5;
-            width: 90%;
-            max-width: 500px;
+            z-index: 10;
+            width: 92%;
+            max-width: 480px;
             text-align: center;
-            background: rgba(20, 20, 35, 0.7);
-            backdrop-filter: blur(15px);
-            border-radius: 25px;
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            padding: 30px 20px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+            background: rgba(18, 10, 30, 0.75);
+            backdrop-filter: blur(20px);
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 35px 25px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.8), 0 0 30px rgba(255, 117, 140, 0.2);
         }
 
-        /* Khung ảnh động độc lập */
-        .image-container {
-            width: 180px;
-            height: 180px;
-            margin: 0 auto 20px auto;
-            border-radius: 50%;
-            overflow: hidden;
-            border: 3px solid rgba(255, 255, 255, 0.3);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+        /* Khung chứa ảnh & các hiệu ứng chuyển cảnh phong phú */
+        .image-wrapper {
+            width: 220px;
+            height: 220px;
+            margin: 0 auto 25px auto;
+            border-radius: 20px;
             position: relative;
+            perspective: 1000px;
+            padding: 5px;
+            background: linear-gradient(45deg, #ff758c, #ff7eb3, #7b2cbf, #ff758c);
+            background-size: 300% 300%;
+            animation: borderGlow 4s infinite linear;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
         }
 
-        .image-container img {
+        @keyframes borderGlow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .image-inner {
+            width: 100%;
+            height: 100%;
+            border-radius: 16px;
+            overflow: hidden;
+            position: relative;
+            background: #000;
+        }
+
+        .image-inner img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: transform 0.5s ease;
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* Các kiểu animation khác nhau cho từng bức ảnh */
-        .anim-zoom img {
-            animation: zoomEffect 4s infinite alternate ease-in-out;
+        /* BỘ HIỆU ỨNG HÌNH ẢNH ĐA DẠNG (Biến đổi từng câu chúc) */
+        
+        /* 1. Zoom in & Khung xoay 3D nhẹ */
+        .effect-3d-zoom img {
+            animation: effect3D 4s infinite alternate ease-in-out;
         }
-        @keyframes zoomEffect {
-            0% { transform: scale(1); }
-            100% { transform: scale(1.15); }
-        }
-
-        .anim-rotate img {
-            animation: rotateEffect 6s infinite linear;
-        }
-        @keyframes rotateEffect {
-            0% { transform: rotate(0deg) scale(1.05); }
-            50% { transform: rotate(5deg) scale(1.1); }
-            100% { transform: rotate(0deg) scale(1.05); }
+        @keyframes effect3D {
+            0% { transform: scale(1) rotateY(0deg); }
+            100% { transform: scale(1.15) rotateY(12deg) rotateX(5deg); }
         }
 
-        .anim-bounce img {
-            animation: bounceEffect 3s infinite ease-in-out;
+        /* 2. Hiệu ứng Wave Sóng & Lóa Sáng */
+        .effect-wave-glow img {
+            animation: waveGlow 3.5s infinite ease-in-out;
         }
-        @keyframes bounceEffect {
-            0%, 100% { transform: translateY(0) scale(1); }
-            50% { transform: translateY(-8px) scale(1.08); }
-        }
-
-        .anim-glow img {
-            animation: glowEffect 3.5s infinite ease-in-out;
-        }
-        @keyframes glowEffect {
-            0%, 100% { transform: scale(1); filter: brightness(1); }
-            50% { transform: scale(1.1); filter: brightness(1.2) hue-rotate(15deg); }
+        @keyframes waveGlow {
+            0%, 100% { transform: scale(1.05) rotate(0deg); filter: brightness(1) contrast(1); }
+            50% { transform: scale(1.18) rotate(-4deg); filter: brightness(1.3) contrast(1.1) drop-shadow(0 0 15px #ff758c); }
         }
 
-        /* Khung chữ xuất hiện từng dòng */
-        #text-box {
-            min-height: 100px;
+        /* 3. Hiệu ứng Trôi Bồng Bềnh & Nhấp Nháy Màu Sakusra */
+        .effect-float-sakura img {
+            animation: floatSakura 4s infinite ease-in-out;
+        }
+        @keyframes floatSakura {
+            0% { transform: translateY(0) scale(1.05); filter: hue-rotate(0deg); }
+            50% { transform: translateY(-12px) scale(1.12); filter: hue-rotate(25deg); }
+            100% { transform: translateY(0) scale(1.05); filter: hue-rotate(0deg); }
+        }
+
+        /* 4. Hiệu ứng Flip Lật Thẻ Độc Đáo */
+        .effect-flip img {
+            animation: flipCard 4s infinite ease-in-out;
+        }
+        @keyframes flipCard {
+            0%, 100% { transform: rotateY(0deg) scale(1); }
+            50% { transform: rotateY(180deg) scale(1.1); }
+        }
+
+        /* 5. Hiệu ứng Nhịp Tim Heartbeat & Radial Pulse */
+        .effect-heartbeat img {
+            animation: heartbeat 2s infinite ease-in-out;
+        }
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            15% { transform: scale(1.12); }
+            30% { transform: scale(1.02); }
+            45% { transform: scale(1.15); }
+        }
+
+        /* 6. Hiệu ứng Xoay Tròn Quỹ Đạo Galaxy */
+        .effect-galaxy img {
+            animation: galaxyRotate 6s infinite linear;
+        }
+        @keyframes galaxyRotate {
+            0% { transform: scale(1.08) rotate(0deg); filter: saturate(1); }
+            50% { transform: scale(1.18) rotate(6deg); filter: saturate(1.5) hue-rotate(-30deg); }
+            100% { transform: scale(1.08) rotate(0deg); filter: saturate(1); }
+        }
+
+        /* Khung hiển thị lời chúc */
+        #text-container {
+            min-height: 120px;
             display: flex;
             align-items: center;
             justify-content: center;
             margin-bottom: 20px;
+            position: relative;
         }
 
         .message-line {
-            font-size: 1.25rem;
-            line-height: 1.6;
-            color: #f1f1f1;
+            font-size: 1.2rem;
+            line-height: 1.7;
+            color: #ffffff;
             opacity: 0;
-            transform: translateY(15px);
-            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            transform: translateY(20px) scale(0.95);
+            transition: all 0.9s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: absolute;
-            width: 85%;
+            width: 100%;
+            font-weight: 500;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.8);
         }
 
         .message-line.active {
             opacity: 1;
-            transform: translateY(0);
+            transform: translateY(0) scale(1);
         }
 
-        /* Chữ ký người gửi */
+        /* Tiến trình / Đếm số câu */
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #ff758c, #ff7eb3, #ffe3ec);
+            transition: width 0.5s ease;
+        }
+
+        /* Chữ ký cuối bài */
         .signature {
             font-family: 'Dancing Script', cursive;
-            font-size: 2rem;
-            color: #ff758c;
-            margin-top: 15px;
+            font-size: 2.2rem;
+            background: linear-gradient(45deg, #ff9a9e, #fecfef, #feada6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-top: 10px;
             opacity: 0;
-            transition: opacity 1s ease;
+            transform: translateY(15px);
+            transition: all 1.2s ease;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.4));
         }
 
         .signature.show {
             opacity: 1;
+            transform: translateY(0);
         }
 
-        /* Hiệu ứng hoa bay/trái tim bay nền */
-        .floating-element {
+        /* Hiệu ứng bong bóng / hoa / trái tim bay lơ lửng */
+        .floating-item {
             position: absolute;
-            bottom: -50px;
+            bottom: -60px;
             z-index: 2;
             user-select: none;
             pointer-events: none;
-            animation: floatUp 5s linear infinite;
+            animation: floatUp 6s linear infinite;
+            filter: drop-shadow(0 0 6px rgba(255, 105, 180, 0.6));
         }
 
         @keyframes floatUp {
             0% {
-                transform: translateY(0) rotate(0deg);
+                transform: translateY(0) rotate(0deg) scale(0.8);
+                opacity: 0.9;
+            }
+            50% {
                 opacity: 1;
             }
             100% {
-                transform: translateY(-110vh) rotate(360deg);
+                transform: translateY(-115vh) rotate(360deg) scale(1.2);
                 opacity: 0;
             }
         }
@@ -214,139 +318,170 @@
     <!-- Nền sao lấp lánh -->
     <div class="stars" id="stars"></div>
 
-    <!-- Màn hình chào ban đầu -->
+    <!-- Màn hình chào khởi đầu -->
     <div id="start-screen" onclick="beginExperience()">
         <h1>Xin chào Ry Húi ✨</h1>
-        <p>Bấm vào đây để mở món quà nhỏ từ VH nhé!</p>
+        <p>VH có một hành trình lời chúc nho nhỏ cùng giai điệu ngọt ngào gửi riêng tới Ry nè...</p>
+        <div class="btn-start">Mở Quà Nhé 🤍</div>
     </div>
 
-    <!-- Giao diện chính -->
+    <!-- Khung giao diện chính -->
     <div id="main-container">
-        <!-- Khu vực hiển thị ảnh với animation thay đổi -->
-        <div class="image-container" id="img-wrapper">
-            <img id="dynamic-image" src="" alt="Mừng 20/10">
+        <!-- Thanh tiến trình xem lời chúc -->
+        <div class="progress-bar">
+            <div class="progress-fill" id="progress"></div>
         </div>
 
-        <!-- Khu vực hiển thị lời chúc tuần tự -->
-        <div id="text-box">
-            <!-- Các dòng chữ sẽ được chèn bằng Javascript -->
+        <!-- Khung hiển thị hình ảnh có hiệu ứng thay đổi liên tục -->
+        <div class="image-wrapper" id="img-wrapper">
+            <div class="image-inner">
+                <img id="dynamic-image" src="" alt="Dành tặng Ry Húi">
+            </div>
         </div>
 
-        <div class="signature" id="signature">Từ VH gửi với tất cả thương yêu 🤍</div>
+        <!-- Khung hiển thị các lời chúc lần lượt -->
+        <div id="text-container"></div>
+
+        <!-- Chữ ký người gửi -->
+        <div class="signature" id="signature">~ Từ VH với tất cả sự yêu thương ~ 🤍</div>
     </div>
 
-    <!-- Nhạc nền Việt Nam có lời (Sử dụng liên kết audio ổn định) -->
-    <audio id="bg-music" loop>
-        <source src="https://audio.jukehost.co.uk/q1m3aU5Wv5Xj0H4Yn2Z5B9K7L1M3N5P7" type="audio/mp3">
-        <!-- Link dự phòng nếu link trên lỗi -->
-        <source src="https://p.scdn.co/mp3-preview/7c37a1e05d048455d326f5f3e9f45688b1f28b43?cid=2544299b82af4d7fb6a13fbc485b848a" type="audio/mp3">
+    <!-- Nhạc nền "Đường Tôi Chở Em Về" - Bùi Trường Linh -->
+    <audio id="bg-music" loop preload="auto">
+        <source src="https://files.catbox.moe/57w02k.mp3" type="audio/mp3">
+        <!-- Link audio dự phòng -->
+        <source src="https://api.vocalremover.media/storage/audio/duong-toi-cho-em-ve.mp3" type="audio/mp3">
     </audio>
 
     <script>
-        // Tạo hiệu ứng sao nền
+        // 1. Khởi tạo nền sao lấp lánh
         const starsContainer = document.getElementById('stars');
-        for (let i = 0; i < 60; i++) {
+        for (let i = 0; i < 70; i++) {
             const star = document.createElement('div');
             star.classList.add('star');
-            star.style.width = `${Math.random() * 3}px`;
+            star.style.width = `${Math.random() * 3 + 1}px`;
             star.style.height = star.style.width;
             star.style.top = `${Math.random() * 100}%`;
             star.style.left = `${Math.random() * 100}%`;
-            star.style.setProperty('--duration', `${2 + Math.random() * 3}s`);
+            star.style.setProperty('--duration', `${2 + Math.random() * 3.5}s`);
             starsContainer.appendChild(star);
         }
 
-        // Dữ liệu nội dung: mỗi bước gồm Ảnh, Hiệu ứng ảnh và Lời chúc tương ứng
+        // 2. Danh sách 8 Lời chúc phong phú đi kèm Ảnh & Hiệu ứng ĐA DẠNG khác nhau
         const storySteps = [
             {
-                img: "https://images.unsplash.com/photo-1518895949257-7621c3c786d7?w=500&auto=format&fit=crop&q=60",
-                anim: "anim-zoom",
-                text: "Hôm nay là một ngày đặc biệt..."
+                img: "https://images.unsplash.com/photo-1518895949257-7621c3c786d7?w=600&auto=format&fit=crop&q=80",
+                effect: "effect-3d-zoom",
+                text: "Xin chào Ry Húi! Hôm nay là một ngày vô cùng đặc biệt..."
             },
             {
-                img: "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=500&auto=format&fit=crop&q=60",
-                anim: "anim-rotate",
-                text: "Ngày 20/10 dành riêng cho những cô gái tuyệt vời."
+                img: "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=600&auto=format&fit=crop&q=80",
+                effect: "effect-wave-glow",
+                text: "Ngày để tôn vinh những điều tuyệt vời nhất, ngọt ngào nhất thế giới này."
             },
             {
-                img: "https://images.unsplash.com/photo-1490750967868-88aa4486c946?w=500&auto=format&fit=crop&q=60",
-                anim: "anim-bounce",
-                text: "VH muốn gửi đến Ry Húi những lời chúc tốt đẹp nhất!"
+                img: "https://images.unsplash.com/photo-1490750967868-88aa4486c946?w=600&auto=format&fit=crop&q=80",
+                effect: "effect-float-sakura",
+                text: "VH muốn gửi tới Ry những lời chúc chân thành và ấm áp nhất từ đáy lòng."
             },
             {
-                img: "https://images.unsplash.com/photo-1526047932273-341f2a7631f9?w=500&auto=format&fit=crop&q=60",
-                anim: "anim-glow",
-                text: "Chúc Ry luôn xinh đẹp, rạng rỡ và luôn mỉm cười mỗi ngày nhé! 🌸"
+                img: "https://images.unsplash.com/photo-1526047932273-341f2a7631f9?w=600&auto=format&fit=crop&q=80",
+                effect: "effect-flip",
+                text: "Chúc Ry Húi mỗi ngày bước ra đường đều gặp thật nhiều may mắn và nụ cười rạng rỡ trên môi! 🌸"
+            },
+            {
+                img: "https://images.unsplash.com/photo-1513151233558-d860c5398176?w=600&auto=format&fit=crop&q=80",
+                effect: "effect-heartbeat",
+                text: "Mong rằng cuộc sống của Ry luôn ngập tràn sắc màu, bớt đi những âu lo và thêm thật nhiều niềm vui."
+            },
+            {
+                img: "https://images.unsplash.com/photo-1533619043865-1c2e2f32ff2f?w=600&auto=format&fit=crop&q=80",
+                effect: "effect-galaxy",
+                text: "Dù có thế nào, hãy luôn tự tin, xinh đẹp và là chính phiên bản đáng yêu nhất của mình nhé!"
+            },
+            {
+                img: "https://images.unsplash.com/photo-1469371670807-013ccf25f16a?w=600&auto=format&fit=crop&q=80",
+                effect: "effect-3d-zoom",
+                text: "Cảm ơn Ry Húi vì đã luôn xuất hiện và mang đến những năng lượng tích cực tuyệt vời!"
+            },
+            {
+                img: "https://images.unsplash.com/photo-1518199266791-5375a83190b7?w=600&auto=format&fit=crop&q=80",
+                effect: "effect-wave-glow",
+                text: "Chúc Ry một ngày lễ tràn ngập hoa, quà, tình yêu thương và sự ấm áp bên người thân yêu! 💖"
             }
         ];
 
         let currentStep = 0;
         const imgWrapper = document.getElementById('img-wrapper');
         const dynamicImage = document.getElementById('dynamic-image');
-        const textBox = document.getElementById('text-box');
+        const textContainer = document.getElementById('text-container');
         const signature = document.getElementById('signature');
+        const progressBar = document.getElementById('progress');
 
         function beginExperience() {
-            // Ẩn màn hình chào, hiện khung chính
+            // Ẩn màn hình khởi động, hiện khung chính
             document.getElementById('start-screen').style.display = 'none';
             document.getElementById('main-container').style.display = 'block';
 
-            // Phát nhạc nền
+            // Bật nhạc "Đường Tôi Chở Em Về"
             const music = document.getElementById('bg-music');
-            music.play().catch(e => console.log("Trình duyệt chặn tự động phát nhạc:", e));
+            music.volume = 0.8;
+            music.play().catch(e => console.log("Cần tương tác để phát nhạc:", e));
 
-            // Bắt đầu chạy các bước lời chúc
-            showStep();
-            
-            // Định kỳ sinh hiệu ứng bay lơ lửng (trái tim, hoa)
-            setInterval(createFloatingIcon, 400);
+            // Bắt đầu chuỗi lời chúc
+            runSequence();
+
+            // Sinh trái tim, hoa và bong bóng bay liên tục
+            setInterval(createFloatingElements, 350);
         }
 
-        function showStep() {
+        function runSequence() {
             if (currentStep < storySteps.length) {
-                const step = storySteps[currentStep];
+                const data = storySteps[currentStep];
 
-                // Đổi ảnh và hiệu ứng animation khung ảnh
-                dynamicImage.src = step.img;
-                imgWrapper.className = "image-container " + step.anim;
+                // Cập nhật thanh tiến trình
+                const progressPercent = ((currentStep + 1) / storySteps.length) * 100;
+                progressBar.style.width = progressPercent + "%";
 
-                // Xóa nội dung cũ và tạo dòng chữ mới hiện dần
-                textBox.innerHTML = '';
+                // Thay đổi ảnh & cập nhật class hiệu ứng tương ứng
+                dynamicImage.src = data.img;
+                imgWrapper.className = "image-wrapper " + data.effect;
+
+                // Xóa câu cũ, chèn câu chúc mới
+                textContainer.innerHTML = '';
                 const line = document.createElement('div');
                 line.className = 'message-line';
-                line.innerText = step.text;
-                textBox.appendChild(line);
+                line.innerText = data.text;
+                textContainer.appendChild(line);
 
-                // Hiệu ứng Fade in chữ
+                // Hiệu ứng Fade-in xuất hiện chữ
                 setTimeout(() => {
                     line.classList.add('active');
                 }, 100);
 
-                // Thời gian hiển thị mỗi dòng trước khi chuyển sang dòng tiếp theo
-                let displayTime = 4000;
                 currentStep++;
-
-                setTimeout(showStep, displayTime);
+                // Thời gian hiển thị mỗi dòng chúc (4.2 giây)
+                setTimeout(runSequence, 4200);
             } else {
-                // Khi hết các dòng chúc, hiện chữ ký người gửi
+                // Khi hoàn thành tất cả lời chúc, hiện chữ ký ấm áp từ VH
                 signature.classList.add('show');
             }
         }
 
-        // Tạo hiệu ứng phần tử bay (trái tim, hoa hồng) ngẫu nhiên
-        function createFloatingIcon() {
-            const icons = ['❤️', '🌸', '✨', '💖', '🌷'];
+        // Tạo hiệu ứng bong bóng, hoa mai, hoa hồng, trái tim bay bồng bềnh
+        function createFloatingElements() {
+            const icons = ['❤️', '🌸', '✨', '💖', '🌷', '💐', '💫', '🌹'];
             const el = document.createElement('div');
-            el.classList.add('floating-element');
-            el.style.left = Math.random() * 100 + 'vw';
-            el.style.fontSize = (Math.random() * 15 + 15) + 'px';
-            el.style.animationDuration = (Math.random() * 3 + 3) + 's';
+            el.classList.add('floating-item');
+            el.style.left = Math.random() * 95 + 'vw';
+            el.style.fontSize = (Math.random() * 18 + 14) + 'px';
+            el.style.animationDuration = (Math.random() * 3 + 4) + 's';
             el.innerHTML = icons[Math.floor(Math.random() * icons.length)];
             document.body.appendChild(el);
 
             setTimeout(() => {
                 el.remove();
-            }, 6000);
+            }, 7000);
         }
     </script>
 </body>
